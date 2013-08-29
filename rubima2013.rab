@@ -1,28 +1,329 @@
-= TITLE
+= migrate to magazine.rubyist.net
 
 # : subtitle
 #    SUBTITLE
 : author
-   Kazuhiro NISHIYAMA
+   西山和広 (@znz)
 # : institution
 #    INSTITUTION
-# : content-source
-#    EVENT NAME
-# : date
-#    2013/08/18
-# : allotted-time
-#    5m
+: content-source
+   関西Ruby会議05
+: date
+   2013/08/31
+: allotted-time
+   20m
 # : theme
 #    default
 
-= FIRST SLIDE
-
-  * ITEM 1
-  * ITEM 2
-  * ITEM 3
-
-= SECOND SLIDE
+= 自己紹介
+  * twitter や github では @znz
 
   # image
-  # src = https://raw.github.com/rabbit-shocker/rabbit/master/sample/lavie.png
+  # src = https://secure.gravatar.com/avatar/8e497efbe99e2fa051316337d03624d9?s=200
   # relative_height = 100
+
+== Note
+twitter や github では、こういうアイコン画像で znz というアカウントを使っています。
+
+
+= 自己紹介 : Ruby 関連
+
+  * Ruby のコミッター (kazu)
+  * Ruby 関係でいろいろ
+    * るびま (Rubyist Magazine) 編集とか
+    * るりま (Ruby リファレンスマニュアル) とか
+    * Ruby 関連のイベントでの発表
+
+== Note
+まずは自己紹介から。
+Ruby 関連では、主に Ruby のコミッターをしています。
+subversion のアカウントは znz ではなく kazu です。
+他には主にドキュメント関連のことをやっていたりします。
+
+= 自己紹介 : その他
+
+  * Debian 関係
+    * 関西 Debian 勉強会や大統一 Debian 勉強会での発表
+  * Lightweight Language イベントには毎年参加
+
+    http://ll.jus.or.jp/
+
+== Note
+Ruby 関連以外では、Debian 関連の勉強会でも発表をしていたり、
+jus の LL のイベントには毎年参加していたりします。
+
+= Rubyist Magazine とは?
+Rubyist Magazine について
+
+『Rubyist Magazine』、略して『るびま』は、日本 Ruby の会の有志による Rubyist の Rubyist による、Rubyist とそうでない人のためのウェブ雑誌です。
+
+== Note
+Rubyist Magazine のトップページには、こういう説明が書いてあります。
+
+= 何があったのか?
+直接のきっかけ
+
+「Ruby 2.0.0 のリリース特集をしているるびまの Hiki が Ruby 1.8.7-p302 で動いているというのはなにかの冗談なの？」
+
+ Rubyist Magazine 移行後記
+ http://magazine.rubyist.net/?0042-RubimaMigrationToRuby2.0
+
+== Note
+詳細は Rubyist Magazine の記事や GitHub の Issues や Wiki を見てもらうとして、ここでは概要やどういうところが大変だったのかという話をします。
+
+= 以前の状況
+  * jp.rubyist.net/magazine/ で jp.rubyist.net の一部
+  * 物理的には NaCl さんに置いているサーバー
+  * www.rubyist.net なども同居
+  * wiki.fdiary.net の HikiFarm を利用
+
+== Note
+サーバーとしては、こういういろんなものが同居している中の一部として動いていて、
+全体を一気にあげるのは困難な状態でした。
+
+= 現在の状況
+  * magazine.rubyist.net に分離
+  * Sqale (スケール) というクラウドホスティング上
+  * jp.rubyist.net/magazine/ は magazine.rubyist.net へのリダイレクト
+== Note
+そんな状態だったのが、今は分離されて単独で動いています。
+古い URL からもリダイレクトして、リンク切れにならないようにしています。
+(ソーシャルブックマークは分散してしまいますが、仕方が無いかと思います。)
+= 注
+  * この後の ((*#番号*))
+    * https://github.com/rubima/rubima の issues の番号
+    * 詳細参照用
+
+= 移行作業でやったこと (1)
+  * hsbt さんが Sqale に移行 #70 #71 #76 #81
+  * 作業手順を github.com/rubima/rubima/wiki にまとめ
+  * hiki やプラグインの更新反映方法とか
+= 移行作業でやったこと (2)
+  * 手伝うのに不足している情報を要求
+  * Wiki を更新
+  * 作業者と別の人がチェック
+  * 不足がわかりやすい
+
+== Note
+私が手伝うのに不足している情報を要求して、
+github のるびまの wiki にまとめられている情報が増えていきました。
+
+作業者が必要だと思って公開した情報だけでは
+手伝う人から見ると不足している情報があるので
+つついて出してもらう必要がある。
+
+作業者本人だけのドキュメントだと不足
+他人が手伝えるような手順のドキュメントが必要
+= 移行作業でやったこと (3)
+  * 公開出来る部分はどんどん公開
+    * github.com/rubima/hiki-plugin
+      * jp.rubyist.net にしかなかったプラグインも
+    * github.com/rubima/hiki
+      * upstream の hiki/hiki に取り込めない差分
+      * Squle 用の設定
+      * 認証の追加
+      * テーマのパス変更
+== Note
+hikiの差分やプラグインなども公開出来る部分はどんどん公開していきました。
+
+= 移行作業でやったこと (4)
+  * 移行での意図していない変化を確認 #92
+    * チェックスクリプトを作成して確認
+    * 修正出来るところはどんどん修正
+    * 難しいものや原因不明のものは未対応
+  * 「RubyistMagazine 表記規則」自動チェック #62
+    * 昔作ったチェックスクリプトを公開
+
+= 移行作業でやったこと (5)
+  * 編集Wikiと本番Wikiを統合 #74
+    * 今までは deploy スクリプトでコピーしてリリース #72
+  * 代わりに
+    * リネーム機能 #87
+    * pre- で始まるページは隠す #101
+    * 隠し属性機能 (auth) #186 (#157 #158)
+= 移行作業でやったこと (5)
+  * 作業手順の明文化
+    * リリース手順 #60 #109 #186
+    * 編集進行チェックリスト #122
+    * 編集者追加手順 #22 #78
+      * 以前は apache での共通の BASIC 認証のみ
+      * 今は個別のユーザーを作る #74 #105
+    * 編集プロセスを公開の場所へ #57
+      * 編集WikiからGitHubのWikiへ
+== Note
+リリース手順などの明文化されていなかった部分がある作業のまとめ直し
+
+= 移行での意図していない変化
+  * 意図していない変化とは、主に
+    * ページの増減
+      * 編集Wikiと本番Wikiの食い違いが原因
+      * リリースされなかった書きかけ記事
+      * 編集者向けの情報
+    * 文字化け (まれ)
+    * エラーで表示出来ない (多数)
+
+= encoding 問題 (1)
+  * EUC-JP から UTF-8 に移行
+    * hiki のバージョンアップに伴う変更
+  * ruby 1.8 から ruby 2.0 で encoding が厳密に
+    * Encoding::CompatibilityError
+    * ArgumentError (invalid byte sequence in UTF-8)
+
+= encoding 問題 (2)
+  * エラーで表示されないページ
+    * ゴミページは削除 #102 #119
+    * 未リリースページ
+    * 次号でリリースされたのに、なぜか残っていた前号のページ
+  * 必要なページでページ全体がエラーのものはなかった(はず)
+= encoding 問題 (3)
+  * 添付ファイルのファイル名問題 #120
+    * 日本語ファイル名があった
+    * ディスク上のファイル名は euc-jp のまま
+    * ページからは utf-8 で参照
+    * 画像が表示されない (リンク切れ)
+= encoding 問題 (4)
+  * 添付ファイルのファイル名問題 #120
+    * "ピクチャ 1.png" などを "1.png" などに変更
+    * ディスク上のファイル名やページからの参照を直接変更
+    * 移行ツールは作成されず
+= encoding 問題 (5)
+  * 添付内容表示プラグインの問題
+    * 添付ファイルの内容を取り込むプラグインが複数存在
+      * attach_rb inline plugin #106 #147
+      * ansi_screen plugin (ansisys.rb) の upstream の変更取り込み #146
+    * ArgumentError (invalid byte sequence in UTF-8) 多発
+= encoding 問題 (5)
+  * 添付内容表示プラグインの問題
+    * 入力は nkf による自動判別で対処
+      * 内容が sjis の添付ファイルも存在した
+    * 正規表現の適用は utf-8 に変換後
+      * 今までは変換前でも us-ascii 互換の範囲なら適当に動いていた (潜在的なバグの原因だった)
+    * scan(/./) 相当を each_char に
+    * size を bytesize に
+
+= diff メール問題 (1)
+  * 編集した時に編集差分メールを送るプラグイン
+    * 送信されない問題 #80 #108 #135
+    * URL が変 #128 #141 #142
+      * 編集したページの URL 生成部分のバグ
+      * "http: .../?ページ名" ではなく "./?ページ名" になっていたというバグ
+      * cgi.rb から Rack への移行の影響
+
+= diff メール問題 (2)
+  * 最初の問題 : エラーなく送信されない
+    * update_proc の例外は捨てられていたのでブラウザ上で見えず
+    * 再現用のプログラムを書いて実際に sqale 上で動かしてデバッグ
+    * 原因
+      * iso-2022-jp が ascii 非互換なので本文とそれ以外の結合で
+        Encoding::CompatibilityError
+= diff メール問題 (3)
+  * エラー無く送信出来ない問題
+    * 最終的に
+      * charset=iso-2022-jp
+      * Content-Transfer-Encoding: 7bit
+      から
+      * charset=utf-8
+      * Content-Transfer-Encoding: Base64
+= diff メール問題 (4)
+  * URL 問題の修正中にまたエラーで送信されない
+    * 今度はブラウザに出てきた
+    * 保存出来ているのにエラー
+    * URL 生成部分で呼ぶメソッド名が間違っていた
+= diff メール問題 (5)
+  * URL が変
+    * @conf.base_url が "" に変わった影響
+    * URL 生成に使う情報がどれなのかわかりにくかった
+      * @request.base_url ?
+      * @request.index_url ? (NoMethodError)
+        * 送信されない問題再発の原因
+      * @conf.index_url ?
+      * @conf.cgi_name ?
+= キャッシュ問題
+  * キャッシュ問題 #139 #85 #73
+    * 現象: 「見えているページ」と『「編集」で見えるソース』が異なる
+    * 原因: バックエンドになっているデータベース上のソースを直接変更
+    * 対処: data/cache/parser を削除
+= 未解決問題
+  * 協力者求む！
+= 未解決問題 (1)
+  * 更新日時が出なくなった #93
+    * HTML の構造や CSS の問題
+  * sidebar の背景画像の長さ #90
+    * CSS などに詳しい人求む!
+= 未解決問題 (2)
+  * 文字化け (＼ や ～ が ? に化ける) #125
+    * どこで化けてるのか不明
+    * (({{{e(...)}}})) で回避中
+  * ページ内リンク先が間違っている #127
+    * 別表記にして回避
+= 未解決問題 (3)
+  * GitHub に iso-2022-jp のメールで文字化け #103
+    * GitHub 側の問題
+    * GitHub 側に解決方法を教えられる人がいれば直るかも
+= 未解決問題 (4)
+  * sidemenu や目次ページなど #196
+    * 方針を決める必要あり
+    * 困ってないのでこのままかも
+  * Accept-Language なしの時の言語が違う #94
+    * 誰も困ってない?
+= おまけ
+  * ここからはおまけです
+  * 時間がなければ飛ばします
+= 増えた機能
+  * Google Analytics でアクセス解析 #152
+    * 編集後記で人気記事がわかるよ！
+= 減った機能 (1)
+  * RSS 廃止 #95
+    * 要望があれば復活するかも
+  * 編集履歴などへのリンクが(見え)なくなった (#92 の一部)
+    * adminmenu を CSS で隠しているだけ
+= 減った機能 (2)
+  * bbs プラグインと trackback プラグイン #126 #129 #96 #97
+    * 無効化プラグインで以前から停止中
+    * 同様のプラグインを作成して停止
+    * 最終的に @gunjisatoshi さんが頑張って消した
+= 減った機能 (3)
+  * ソーシャルブックマックバーの整理 #91 #124
+    * delicious を外したとか #124 #31
+= 変わった点
+  * 問い合わせ先メールアドレス #73 #21 #182
+  * amazon アソシエイトID #85
+    * HikiFarm のかずひこさんの個人IDからRubyの会のIDに変更
+
+= 細かい対応
+  * ゴミページ削除 #98 #99 #102 #119 #150 #149
+  * hiki のバグ対応 #111 など
+= 編集Wikiと本番Wiki
+  * 編集Wikiと本番Wikiの統合関連
+    * pre- で始まるページ一覧 #100
+    * admin ではなく個別アカウントで編集 #105
+    * SideMenu の「以下リリースでは削除」 #117
+
+= HTTP レベルの問題
+  * HEAD リクエスト対応 #113
+  * cookie ヘッダ #114
+  * Content-Type が変 #89
+= 他の問題
+  * foreman のバグ (Sqale 側で修正) #138
+
+= さらにおまけ
+  * 時間がなければここまで飛ばす
+  * ruby-lang.org 関連の話です
+    * ruby-lang.org のサーバーの障害報告
+      https://www.ruby-lang.org/ja/news/2013/08/06/status-issue/
+= その他の近況 (1)
+  * 旧 www.ruby-lang.org がハードウェア障害で停止
+  * www.ruby-lang.org は障害前に別ホストに移行済み
+    * Radiant CMS から jekyll に移行したとき
+    * 今後さらに heroku に移行予定らしい
+= その他の近況 (2)
+  * ftp.ruby-lang.org も別ホストに移行した
+    * 今後の予定は未定
+    * いくつかの案がある
+      * ミラーサイトを推奨する?
+      * S3 に移行する?
+= その他の近況 (3)
+  * ML が fml から mailman に移行
+    * gmail で spam 判定されやすくなっているようなので注意
+    * 特に redmine 連携のメール
+    * フィルタで spam にしない設定を
