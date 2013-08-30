@@ -305,6 +305,9 @@ hikiの差分やプラグインなども公開出来る部分はどんどん公�
   * Content-Type が変 #89
 = 他の問題
   * foreman のバグ (Sqale 側で修正) #138
+    * 再起動時の終了処理に失敗
+    * MySQL の接続が残る
+    * Mysql2::Error: Too many connections
 
 = さらにおまけ
   * 時間がなければここまで飛ばす
