@@ -1,6 +1,13 @@
-= TODO: SLIDE TITLE
+= migrate to magazine.rubyist.net
 
-TODO: SLIDE DESCRIPTION
+http://jp.rubyist.net/magazine/ から http://magazine.rubyist.net/ への移行で何をしたのか、そして何がまだ出来ていないのか、ということについて話します。
+
+  * 関連情報:
+    * http://rubykaigi.org/2013/talk/S08
+    * https://speakerdeck.com/hsbt/ruby-root
+    * https://github.com/rubima/rubima
+    * http://magazine.rubyist.net/?0042-RubimaMigrationToRuby2.0
+
 
 == For author
 
